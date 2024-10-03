@@ -2,9 +2,10 @@ import { Button } from "./_components/ui/button";
 
 const Home  = () => {
   return (
-    <div>
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+
       <h1>Home</h1>
-      <Button className="bg-red-500">Button</Button>
+      <Button>Button</Button>
     </div>
   )
 }
