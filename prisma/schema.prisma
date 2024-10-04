@@ -1,8 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// prisma/schema.prisma
 
 generator client {
   provider = "prisma-client-js"
@@ -13,35 +9,65 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Raffle {
-  id           Int       @id @default(autoincrement())
-  title        String
-  description  String
-  price        Float
-  totalTickets Int
-  soldTickets  Int       @default(0)
-  drawDate     DateTime?
-  isDrawn      Boolean   @default(false)
-  createdAt    DateTime  @default(now())
-  tickets      Ticket[]
-}
-
+// Model de Usuário
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  tickets   Ticket[]
+  id            String     @id @default(cuid())
+  name          String?
+  email         String     @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  tickets       Ticket[]   @relation("UserTickets")
+  purchases     Purchase[] @relation("UserPurchases")
 }
 
-model Ticket {
-  id           Int      @id @default(autoincrement())
-  raffleId     Int
-  userId       Int
-  ticketNumber Int
-  createdAt    DateTime @default(now())
+// Model de Rifa
+model Raffle {
+  id            String     @id @default(uuid())
+  title         String
+  description   String
+  totalNumbers  Int
+  maxSelections Int         
+  createdAt     DateTime   @default(now())
+  imageUrl      String?
+  tickets       Ticket[]   @relation("RaffleTickets")
+  purchases     Purchase[] @relation("RafflePurchases")
+}
 
-  raffle Raffle @relation(fields: [raffleId], references: [id])
-  user   User   @relation(fields: [userId], references: [id])
+// Model de Ticket
+model Ticket {
+  id        String       @id @default(uuid())
+  number    Int
+  status    TicketStatus
+  raffleId  String
+  userId    String? // Nullable, preenchido se o ticket estiver reservado/pago
+  createdAt DateTime     @default(now())
+  raffle    Raffle       @relation("RaffleTickets", fields: [raffleId], references: [id])
+  user      User?        @relation("UserTickets", fields: [userId], references: [id])
+}
+
+// Model de Compra
+model Purchase {
+  id            String        @id @default(uuid())
+  userId        String
+  raffleId      String
+  totalAmount   Decimal       @db.Decimal(10, 2)
+  paymentStatus PaymentStatus
+  createdAt     DateTime      @default(now())
+  user          User          @relation("UserPurchases", fields: [userId], references: [id])
+  raffle        Raffle        @relation("RafflePurchases", fields: [raffleId], references: [id])
+}
+
+// Enum para status do ticket
+enum TicketStatus {
+  available
+  reserved
+  paid
+}
+
+// Enum para status de pagamento
+enum PaymentStatus {
+  pending
+  paid
 }
