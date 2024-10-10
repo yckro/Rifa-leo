@@ -32,7 +32,12 @@ const Home = async () => {
 
         {/* imagem */}
         <div className="relative mt-6 h-[150px] w-full">
-          <Image src="/logo4.png" alt="Banner" fill className="object-cover" />
+          <Image
+            src="/logo4.png"
+            alt="Banner"
+            fill
+            className="rounded-xl object-cover"
+          />
         </div>
 
         {/* agendamento */}
@@ -68,9 +73,9 @@ const Home = async () => {
         </h2>
 
         <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-        {raffle.map((raffle) => (
-          <RaffleItem key={raffle.id} raffle={raffle} />
-        ))}
+          {raffle.map((raffle) => (
+            <RaffleItem key={raffle.id} raffle={raffle} />
+          ))}
         </div>
       </div>
     </div>
