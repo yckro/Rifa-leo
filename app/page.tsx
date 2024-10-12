@@ -6,7 +6,7 @@ import { SearchIcon } from "lucide-react"
 import Image from "next/image"
 import { Card } from "./_components/ui/card"
 import { db } from "./_lib/prisma "
-import RaffleItem from "./_components/ui/raffle-item"
+import RaffleItem from "./_components/raffle-item"
 import BookingItem from "./_components/booking-item"
 
 const Home = async () => {

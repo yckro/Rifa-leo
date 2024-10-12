@@ -1,11 +1,10 @@
 import { Raffle } from "@prisma/client"
-import { Card, CardContent } from "./card"
+import { Card, CardContent } from "./ui/card"
 import Image from "next/image"
-import { Button } from "./button"
-import { Badge } from "./badge"
+import { Button } from "./ui/button"
+import { Badge } from "./ui/badge"
 import { FlameIcon } from "lucide-react"
-
-
+import Link from "next/link"
 
 interface RaffleItemProps {
     raffle: Raffle
@@ -24,8 +23,8 @@ const RaffleItem = ({ raffle }: RaffleItemProps) => {
                         alt={raffle.title}
                     />
 
-                    <Badge className="absolute top-2 left-2" variant="secondary">
-                        <FlameIcon size={12} className="fill-primary text-primary " />
+                    <Badge className="absolute left-2 top-2" variant="secondary">
+                        <FlameIcon size={12} className="fill-primary text-primary" />
                     </Badge>
                 </div>
                 {/* {text} */}
@@ -35,8 +34,9 @@ const RaffleItem = ({ raffle }: RaffleItemProps) => {
                     <Button
                         variant="secondary"
                         className="mt-3 w-full font-bold uppercase"
+                        asChild
                     >
-                        Participar
+                        <Link href={`/raffleshops/${raffle.id}`}>Detalhes</Link>
                     </Button>
                 </div>
             </CardContent>
