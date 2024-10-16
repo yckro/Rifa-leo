@@ -2,7 +2,7 @@ import { Button } from "@/app/_components/ui/button"
 import { db } from "@/app/_lib/prisma "
 import Link from "next/link"
 import Image from "next/image"
-import { ChevronLeftIcon } from "lucide-react"
+import { ChevronLeftIcon, FlameIcon } from "lucide-react"
 import { MenuIcon } from "lucide-react"
 interface RaffleshopPageProps {
     params: {
@@ -47,10 +47,20 @@ const RaffleshopPage = async ({ params }: RaffleshopPageProps) => {
                     </Link>
                 </Button>
             </div>
+
+            <div className="border-b border-solid p-5 flex  justify-between">
             <h1 className="text-3xl font-bold">{raffle?.title}</h1>
-            <p className="text-sm text-gray-400">{raffle?.description}</p>
+            <FlameIcon size={30} className="fill-primary text-primary " />
+            </div>
+
+
+            <div className="p-5 border-solid border-b space-y-3">
+                <h2 className="font-bold uppercase text-gray-400">Descricão</h2>
+                <p>{raffle?.description}</p>
+            </div>
+
         </div>
     )
 }
 
-export default RaffleshopPage
+export default RaffleshopPage ;
